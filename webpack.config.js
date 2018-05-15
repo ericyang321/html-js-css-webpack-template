@@ -1,26 +1,31 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
+const isProd = process.env.NODE_ENV === "production";
 const extractText = new ExtractTextPlugin({
-  filename: '[name].[contentHash].css',
-  disable: false,
+  filename: "[name].[contentHash].css",
+  disable: !isProd,
 });
-
-const isProd = process.env.NODE_ENV === 'production';
-let fileName;
-let mode = 'development';
-let devTool = 'eval';
+const plugins = [extractText];
+let fileName = "[name].js";
+let mode = "development";
+let devTool = "eval";
 let htmlConfig = {
   inject: true,
-  template: path.join(__dirname, 'src', 'index.html'),
+  template: path.join(__dirname, "src", "index.html"),
 };
 
+// Development only config
+
+// Production only config
 if (isProd) {
-  fileName = 'bundle.min.js';
-  mode = 'production';
-  devTool = 'none';
+  fileName = "[name].[chunkhash].min.js";
+  mode = "production";
+  devTool = "none";
+  plugins.push(new UglifyJsPlugin(), new CleanWebpackPlugin(["dist"]));
   htmlConfig = Object.assign({}, htmlConfig, {
     minify: {
       removeComments: true,
@@ -37,10 +42,12 @@ if (isProd) {
   });
 }
 
+plugins.push(new HtmlWebpackPlugin(htmlConfig));
+
 module.exports = {
-  entry: path.resolve(__dirname, 'src', 'scripts', 'app.js'),
+  entry: path.resolve(__dirname, "src", "scripts", "app.js"),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, "dist"),
     filename: fileName,
   },
   mode,
@@ -49,37 +56,38 @@ module.exports = {
     colors: true,
   },
   devServer: {
-    contentBase: path.join(__dirname, 'src'),
+    contentBase: path.join(__dirname, "src"),
     port: 3000,
   },
+  resolve: {
+    extensions: [".js", ".json", ".jsx", ".css", "sass"],
+    modules: ["node_modules", path.resolve(__dirname, "src")],
+  },
+  profile: true,
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env'],
+            presets: ["@babel/preset-env"],
           },
         },
       },
       {
         test: /\.sass$/,
         use: extractText.extract({
-          fallback: 'style-loader',
+          fallback: "style-loader",
           use: [
-            { loader: 'css-loader', options: { importLoaders: 1 } },
-            'postcss-loader',
-            'sass-loader',
+            { loader: "css-loader", options: { importLoaders: 1 } },
+            "postcss-loader",
+            "sass-loader",
           ],
         }),
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin(htmlConfig),
-    new CleanWebpackPlugin(['dist']),
-    extractText,
-  ],
+  plugins,
 };

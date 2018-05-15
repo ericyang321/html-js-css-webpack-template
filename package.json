@@ -1,7 +1,7 @@
 {
-  "name": "web",
+  "name": "html-js-css-webpack-template",
   "version": "1.0.0",
-  "description": "",
+  "description": "Compiled website",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -9,17 +9,15 @@
     "build": "NODE_ENV=production webpack"
   },
   "browserslist": [
-    "last 4 versions"
+    "> 0.25%",
+    "ie 10",
+    "ie 11"
   ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ghostpoolio/web.git"
+    "type": "git"
   },
   "author": "Eric Yang <ericyang321@gmail.com>",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/ghostpoolio/web/issues"
-  },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.42",
     "@babel/preset-env": "7.0.0-beta.42",
@@ -35,6 +33,7 @@
     "postcss-scss": "1.0.4",
     "sass-loader": "6.0.7",
     "style-loader": "0.20.3",
+    "uglifyjs-webpack-plugin": "1.2.5",
     "webpack": "4.1.1",
     "webpack-cli": "2.0.12",
     "webpack-dev-server": "3.1.1"
