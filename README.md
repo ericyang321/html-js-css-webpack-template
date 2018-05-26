@@ -7,6 +7,7 @@ Create a landing page quickly with **HTML**, **autoprefixed SASS**, and latest *
 * Autoprefixer for your browser CSS needs
 * Babel for writing > ES2015 and beyond
 * SASS support
+* Normalize.scss to standardize styles across browsers
 * CSS, JS, and HTML minified in production, automatic `<link>` tag and `<script>` tag injection
 * webpack-dev-server for seeing your page in development.
 
@@ -15,11 +16,11 @@ Create a landing page quickly with **HTML**, **autoprefixed SASS**, and latest *
 To start using this template, clone the repo and install dependencies
 
 ```bash
-$ git clone https://github.com/ericyang321/html-js-css-webpack-template.git
-$ npm install
+git clone https://github.com/ericyang321/html-js-css-webpack-template.git
+npm install
 ```
 
-Start writing JavaScripts in `src/scripts`, and CSS in `src/stylesheets`.
+Start writing creating JavaScript files in `src/scripts`, and CSS files in `src/stylesheets`.
 
 Build process is separated between development and production
 
@@ -30,7 +31,7 @@ Build process is separated between development and production
 
 To see your template in action during development, run
 ```sh
-$ npm start
+npm start
 ```
 Access site at `localhost:3000`
 
@@ -42,7 +43,7 @@ Access site at `localhost:3000`
 To build website for production and distribution, run
 
 ```sh
-$ npm run build
+npm run build
 ```
 
 ## Autoprefixer
